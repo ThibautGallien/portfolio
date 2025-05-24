@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { X } from "lucide-react";
+import { useSwipeable } from "react-swipeable";
 import { useLanguage } from "@/context/LanguageContext";
 
 const GameModal = ({ isOpen, onClose }) => {
@@ -9,6 +10,61 @@ const GameModal = ({ isOpen, onClose }) => {
   const canvasRef = useRef(null);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+
+  const isMobile =
+    typeof window !== "undefined" &&
+    /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+
+  let dx = 1;
+  let dy = 0;
+  let snake = [{ x: 10, y: 10 }];
+  let food = { x: 5, y: 5 };
+  let animationFrameId;
+  let speed = 10;
+  let lastRenderTime = 0;
+  const gridSize = 20;
+  const eatSound = new Audio("/sounds/eat.mp3");
+
+  const changeDirection = (dir) => {
+    if (gameOver) return;
+    switch (dir) {
+      case "up":
+        if (dy !== 1) {
+          dx = 0;
+          dy = -1;
+        }
+        break;
+      case "down":
+        if (dy !== -1) {
+          dx = 0;
+          dy = 1;
+        }
+        break;
+      case "left":
+        if (dx !== 1) {
+          dx = -1;
+          dy = 0;
+        }
+        break;
+      case "right":
+        if (dx !== -1) {
+          dx = 1;
+          dy = 0;
+        }
+        break;
+    }
+  };
+
+  const swipeHandlers = useSwipeable({
+    onSwipedUp: () => changeDirection("up"),
+    onSwipedDown: () => changeDirection("down"),
+    onSwipedLeft: () => changeDirection("left"),
+    onSwipedRight: () => changeDirection("right"),
+    preventDefaultTouchmoveEvent: true,
+    trackTouch: true,
+  });
+
+  let restartGame;
 
   useEffect(() => {
     if (!isOpen || !canvasRef.current) return;
@@ -20,33 +76,36 @@ const GameModal = ({ isOpen, onClose }) => {
     canvas.width = 400;
     canvas.height = 400;
 
-    let animationFrameId;
-    let snake = [{ x: 10, y: 10 }];
-    let food = { x: 5, y: 5 };
-    let dx = 1;
-    let dy = 0;
-    let speed = 10;
-    let lastRenderTime = 0;
-    const gridSize = 20;
-
     const generateFood = () => {
-      food = {
-        x: Math.floor(Math.random() * (canvas.width / gridSize)),
-        y: Math.floor(Math.random() * (canvas.height / gridSize)),
-      };
+      let valid = false;
+      while (!valid) {
+        food = {
+          x: Math.floor(Math.random() * (canvas.width / gridSize)),
+          y: Math.floor(Math.random() * (canvas.height / gridSize)),
+        };
+        valid = !snake.some(
+          (segment) => segment.x === food.x && segment.y === food.y
+        );
+      }
+    };
 
-      snake.forEach((segment) => {
-        if (segment.x === food.x && segment.y === food.y) {
-          generateFood();
-        }
-      });
+    restartGame = () => {
+      snake = [{ x: 10, y: 10 }];
+      dx = 1;
+      dy = 0;
+      generateFood();
+      setScore(0);
+      setGameOver(false);
+      lastRenderTime = 0;
+      animationFrameId = requestAnimationFrame(draw);
     };
 
     const checkEatFood = () => {
       const head = snake[0];
       if (head.x === food.x && head.y === food.y) {
-        setScore((prev) => prev + 10);
         generateFood();
+        eatSound.play();
+        if (navigator.vibrate) navigator.vibrate(100);
         return true;
       }
       return false;
@@ -79,7 +138,9 @@ const GameModal = ({ isOpen, onClose }) => {
         return;
       }
 
-      if (!checkEatFood()) {
+      if (checkEatFood()) {
+        setScore((prev) => prev + 10);
+      } else {
         snake.pop();
       }
     };
@@ -150,7 +211,7 @@ const GameModal = ({ isOpen, onClose }) => {
           canvas.height / 2 + 40
         );
         ctx.fillText(
-          "Press SPACE to restart",
+          "Press SPACE or tap RESTART",
           canvas.width / 2,
           canvas.height / 2 + 80
         );
@@ -162,49 +223,40 @@ const GameModal = ({ isOpen, onClose }) => {
 
     const handleKeyDown = (e) => {
       if (gameOver && e.code === "Space") {
-        snake = [{ x: 10, y: 10 }];
-        dx = 1;
-        dy = 0;
-        generateFood();
-        setScore(0);
-        setGameOver(false);
-        animationFrameId = requestAnimationFrame(draw);
+        restartGame();
         return;
       }
 
       switch (e.code) {
         case "ArrowUp":
-          if (dy !== 1) {
-            dx = 0;
-            dy = -1;
-          }
+          changeDirection("up");
           break;
         case "ArrowDown":
-          if (dy !== -1) {
-            dx = 0;
-            dy = 1;
-          }
+          changeDirection("down");
           break;
         case "ArrowLeft":
-          if (dx !== 1) {
-            dx = -1;
-            dy = 0;
-          }
+          changeDirection("left");
           break;
         case "ArrowRight":
-          if (dx !== -1) {
-            dx = 1;
-            dy = 0;
-          }
+          changeDirection("right");
           break;
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
 
+    const preventScroll = (e) => {
+      if (["ArrowUp", "ArrowDown"].includes(e.code)) {
+        e.preventDefault();
+      }
+    };
+
+    window.addEventListener("keydown", preventScroll, { passive: false });
+
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keydown", preventScroll);
     };
   }, [isOpen, gameOver]);
 
@@ -220,14 +272,18 @@ const GameModal = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        <div className="game-container">
+        <div className="game-container" {...swipeHandlers}>
           <div className="game-score">Score: {score}</div>
           <canvas ref={canvasRef} className="game-canvas" />
           <div className="game-instructions">
-            <p>Use arrow keys to control the snake.</p>
+            <p>Use arrow keys or swipe to control the snake.</p>
             <p>Collect the neon food to grow.</p>
-            {gameOver && <p>Press SPACE to restart.</p>}
+            {gameOver && <p>Press SPACE or tap RESTART to play again.</p>}
           </div>
+
+          <button onClick={() => restartGame()} className="restart-button">
+            Rejouer
+          </button>
         </div>
       </div>
     </div>
