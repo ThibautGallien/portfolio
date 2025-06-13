@@ -1,25 +1,115 @@
 [
   {
-    "id": "1748029983545",
+    "id": "1749801114957",
     "title": {
       "en": "Kasa",
-      "fr": "",
-      "jp": ""
+      "fr": "Kasa",
+      "jp": "Kasa"
     },
     "description": {
-      "en": "Kasa",
-      "fr": "",
-      "jp": ""
+      "en": "Rental housing application developed during my training on OpenClassrooms. The goal was to rebuild the entire front-end of the application as well as its responsive versions using React.",
+      "fr": "Application de location de logement réalisé pendant ma formation sur OpenClassrooms. L'objectif était de refaire toute la partie front-end de l'application ainsi que les versions responsives avec React.",
+      "jp": "OpenClassroomsでの研修中に制作した住宅賃貸アプリケーションです。目的は、Reactを使ってアプリケーションのフロントエンド全体とレスポンシブ対応版を再構築することでした。"
     },
     "details": {
       "en": "",
       "fr": "",
       "jp": ""
     },
-    "technologies": ["Git", "Node", "React"],
-    "link": "https://kasa.com",
-    "github": "https://github.com",
+    "technologies": [
+      "React",
+      "JavaScript",
+      "SCSS"
+    ],
+    "link": "https://github.com/ThibautGallien/Kasa",
+    "github": "https://github.com/ThibautGallien/Kasa",
+    "featured": false,
+    "image": "/images/kasa.png"
+  },
+  {
+    "id": "1749801475341",
+    "title": {
+      "en": "Dormesia",
+      "fr": "Dormesia",
+      "jp": "Dormesia"
+    },
+    "description": {
+      "en": "Dormesia is a website specialized in sleep. Traffic is driven by SEO and it features an intelligent quiz that allows users to assess their sleep quality and receive personalized advice based on the data collected through the quiz. It is currently managed with a custom-built CMS for this site, but will soon be migrated to a headless CMS using Sanity.",
+      "fr": "Dormesia est un site internet spécialisé dans le sommeil. Le traffic provient du SEO et a un quiz intelligent qui permet à l'utilisateur de connaître son niveau de sommeil et ainsi recevoir des conseils personnalisés grâce aux données récoltées via le quiz. Il est géré avec un CMS fait spécialement pour ce site. Mais sera bientôt géré en Headless CMS avec Sanity",
+      "jp": "Dormesiaは睡眠に特化したウェブサイトです。トラフィックはSEOによって獲得されており、ユーザーが自身の睡眠の質を評価し、クイズを通じて収集されたデータに基づいたパーソナライズされたアドバイスを受け取ることができるインテリジェントなクイズ機能を備えています。現在はこのサイト専用に構築されたCMSで管理されていますが、まもなくSanityを使用したヘッドレスCMSに移行する予定です。"
+    },
+    "details": {
+      "en": "",
+      "fr": "",
+      "jp": ""
+    },
+    "technologies": [
+      "Next.js",
+      "JavaScript",
+      "React",
+      "CustomCMS"
+    ],
+    "link": "https://www.dormesia.com",
+    "github": "https://github.com/ThibautGallien/Dormesia",
     "featured": true,
-    "image": "/images/484069779_122098973060800936_3294917288782337948_n.jpg"
+    "image": "/images/Dormesia.png"
+  },
+  {
+    "id": "1749801746966",
+    "title": {
+      "en": "Lesprosdecherbourg",
+      "fr": "Lesprosdecherbourg",
+      "jp": "Lesprosdecherbourg"
+    },
+    "description": {
+      "en": "Experimental project designed to introduce me to Next.js for developing future websites. Blog posts are published via a CMS developed specifically for this site. Traffic is driven by SEO and it’s monetized through affiliate marketing. It is currently completely inactive.",
+      "fr": "Projet expérimental qui avait pour objectif de me faire découvrir Next.js pour développer de futurs site internet. Les articles de blog sont mis en ligne grâce à un CMS développé spécialement pour ce site. Son traffic provient du SEO et est monétisé via affiliation. Il est pour le moment totalement inactif",
+      "jp": "将来のウェブサイト開発のためにNext.jsを学ぶことを目的とした実験的プロジェクトです。ブログ記事は、このサイト専用に開発されたCMSを使って公開されています。トラフィックはSEOによるもので、アフィリエイトで収益化されています。現時点では完全に非アクティブです。"
+    },
+    "details": {
+      "en": "",
+      "fr": "",
+      "jp": ""
+    },
+    "technologies": [
+      "Next.js",
+      "JavaScript",
+      "React",
+      "CustomCMS"
+    ],
+    "link": "https://www.lesprosdecherbourg.fr",
+    "github": "https://github.com/ThibautGallien/Lesprosdecherbourg",
+    "featured": true,
+    "image": "/images/lesprosdecherbourg.png"
+  },
+  {
+    "id": "1749802265180",
+    "title": {
+      "en": "Freelance Portfolio",
+      "fr": "Portfolio Freelance",
+      "jp": "フリーランスポートフォリオ"
+    },
+    "description": {
+      "en": "The idea came to me after reflecting on what I wanted to do: to launch myself as a freelance copywriter and developer. But this portfolio wasn’t really suited to attracting and converting potential clients. So I decided to build a more “professional” version, focused on selling services rather than showcasing my skills.",
+      "fr": "L'idée m'est venue après avoir réfléchis à ce que je souhaitais faire. Me lancer en tant que copywriter et développeur freelance. Mais ce portfolio n'était pas forcément adapté pour recevoir et convertir mes clients potentiels. J'ai donc décidé de faire une version plus \"pro\" du portfolio et axé vente de services et non présentation de mes compténces",
+      "jp": "自分が何をしたいかを考えた末、フリーランスのコピーライター兼開発者として独立することを思いつきました。しかし、このポートフォリオは潜在的なクライアントを呼び込み、成約につなげるには必ずしも適していませんでした。そこで、スキル紹介ではなくサービス販売に特化した、より「プロフェッショナル」なポートフォリオを作成することにしました。"
+    },
+    "details": {
+      "en": "",
+      "fr": "",
+      "jp": ""
+    },
+    "technologies": [
+      "Next.js",
+      "JavaScript",
+      "Sanity",
+      "TypeScript",
+      "TailwindCSS",
+      "Shadcn"
+    ],
+    "link": "https://github.com/ThibautGallien/portfolioDynamique-V1",
+    "github": "https://github.com/ThibautGallien/portfolioDynamique-V1",
+    "featured": true,
+    "image": "/images/Portfolio_V2.png"
   }
 ]
